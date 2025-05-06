@@ -1,0 +1,23 @@
+.rehomebanner{
+    width: 100%;
+    height: 65vh;
+}
+.rehomebanner div{
+    background-color: #DFFBF3;
+}
+.rehomebanner h1{
+    color: #213F12;
+}
+.bannerimages .row:first-child{
+    width: 100%;
+    height: 60%;
+}
+.bannerimages .row:last-child{
+    width: 100%;
+    height: 40%;
+}
+.images img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

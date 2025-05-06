@@ -1,0 +1,51 @@
+**background colors**
+#D8FD7E
+#DFFBF3
+#213F12
+#7A9A7F
+#AFCBBA
+#41613A
+
+**logo**
+#D8FD7E
+#213F12
+
+// document.addEventListener('DOMContentLoaded', () => {
+    //     const urlParams = new URLSearchParams(window.location.search);
+    //     const category = urlParams.get('name');
+
+    //     const filterbtns = document.querySelectorAll(".filterbtn button");
+    //     const filtercards = document.querySelectorAll(".filtercards .card");
+    //     console.log(filterbtns, filtercards);
+    //     const filter = (e) => {
+    //         document.querySelector(".active").classList.remove("active");
+    //         e.target.classList.add("active");
+    //         console.log(e.target);
+    //         filtercards.forEach(card => {
+    //             card.classList.add("hide");
+
+    //             if (card.dataset.name === e.target.dataset.name || e.target.dataset.name ===
+    //                 "all") {
+    //                 card.classList.remove("hide");
+    //             }
+    //         });
+    //     };
+
+    //     if (category) {
+    //         document.querySelector(".active").classList.remove("active");
+
+    //         filterbtns.forEach(btn => {
+    //             if (btn.dataset.name === category) {
+    //                 btn.classList.add("active");
+    //             }
+    //         });
+    //         filtercards.forEach(card => {
+    //             if (card.dataset.name !== category) {
+    //                 card.style.display = 'none';
+    //             }
+    //         });
+
+    //     }
+
+
+    //     filterbtns.forEach(button => button.addEventListener("click", filter));

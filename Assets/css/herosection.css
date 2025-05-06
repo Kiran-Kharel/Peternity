@@ -1,0 +1,50 @@
+.hero-section {
+    height: 80vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('../images/dog-4494554_1920.jpg') center/cover;
+            }
+  
+  .hero-content h1 {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
+  }
+  
+  .hero-content .lead {
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .btn-primary {
+    background-color: #D8FD7E;
+    border-color: #41613A;
+    color: #213F12;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #41613A;
+    border-color: #41613A;
+    color: #D8FD7E;
+    transform: translateY(-2px);
+  }
+  .btn-primary:focus {
+    background-color: #41613A;
+    outline: none;
+    border-color: #41613A;
+    color: #D8FD7E;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  @media (max-width: 768px) {
+    .hero-section {
+      height: 600px;
+      padding: 80px 0;
+    }
+    
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+    
+    .hero-content .lead {
+      font-size: 1.2rem;
+    }
+  }

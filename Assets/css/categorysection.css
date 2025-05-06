@@ -1,0 +1,20 @@
+.categories-section{
+    height: 50vh;
+}
+.categories-section h1{
+    color: #213F12;
+}
+.categories-section .container .row .col .card{
+    background-color: #DFFBF3;
+    color: #41613A;
+     border: 2px solid #41613A;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.categories-section .container .row .col .card:hover{
+    border: 2px solid #DFFBF3;
+   color: #213F12;
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 22px 0px rgba(0,0,0,0.3);
+}
