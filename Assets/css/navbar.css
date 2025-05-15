@@ -2,12 +2,22 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 nav{
     width: 100%;
     height: 10vh;
-    background-color: #DFFBF3; 
+    background-color: #DFFBF3;
+    display: flex;
+	justify-content: space-between;
+	align-items: center;     
+    padding: 20px;
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 2;
 }
+
 nav div .navbar-brand{
     width: 12%;
     height: 100%;
@@ -17,6 +27,7 @@ nav div .navbar-brand{
     height: 100%;
     object-fit: contain;
 }
+
 .searchbar{
     width: 60%;
 }
