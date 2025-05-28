@@ -1,0 +1,55 @@
+.impact-section{
+  background-color: #cdf091;
+  color: #000;
+  text-align: center;
+  padding: 20px;
+}
+.impact-subtitle {
+  font-weight: bold;
+  font-family: 'Archivo Black', sans-serif;
+  margin-top: 10px;
+  margin-bottom: -2px;
+ 
+}
+.impact-box {
+  padding: 20px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+.impact-title {
+  font-size: 2.1rem;
+  font-family: 'Archivo Black', sans-serif;
+  font-weight: 800;
+  margin: 0;
+}
+.impact-description {
+  font-size: 1.2rem;
+
+  margin: 20px 0;
+}
+.impact-cards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-top: 20px;
+}
+
+.impact-card {
+  flex: 1 1 20%;
+  min-width: 250px;
+  max-width: 300px;
+}
+
+.impact-card h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  font-family: 'Archivo Black', sans-serif;
+  margin-bottom: 10px;
+}
+
+.impact-card p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+}
