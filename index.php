@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="Assets/css/categorysection.css">
     <link rel="stylesheet" href="Assets/css/rehomebanner.css">
     <link rel="stylesheet" href="Assets/css/featuresection.css">
-     <link rel="stylesheet" href="Assets/css/infosection.css">
+    <link rel="stylesheet" href="Assets/css/infosection.css">
 
 
 
