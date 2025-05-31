@@ -39,3 +39,8 @@ nav div .navbar-brand{
 .cta-rehome a{
     width: 100%;
 }
+#userprofile{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}

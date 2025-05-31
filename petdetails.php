@@ -1,5 +1,5 @@
 <?php
-include 'viewprofile.php';
+    include 'viewprofile.php';
 ?>
 
 <!DOCTYPE html>

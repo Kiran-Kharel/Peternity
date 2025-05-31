@@ -145,7 +145,6 @@
                                 <input type="text" class="form-control" name="location" placeholder="City, State"
                                     required>
                             </div>
-
                             <div class="col-md-10">
                                 <label class="form-label">Reason for Rehoming <span class="text-danger">*</span></label>
                                 <textarea class="form-control" name="reason" required></textarea>
