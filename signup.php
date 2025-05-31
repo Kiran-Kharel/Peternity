@@ -44,15 +44,15 @@
             </form>
         </div>
         <div class="toggle-container">
-            <div class="toggle>
+            <div class="toggle">
                 <div class="toggle-panel toggle-right">
-                    <img src="Assets/images/welcome.jpg" alt="" width=330 height=300/>
+                    <!-- <img src="Assets/images/welcome.jpg" alt="" width=330 height=300/> -->
                     <h1>Meet your new furry friend</h1>
                     <p>Register with your personal details to discover pets which are waiting for you!</p>
                     <button class="hidden" id="register">Sign Up</button>
                 </div>
                 <div class="toggle-panel toggle-left">
-                    <img src="Assets/images/signin-dog.jpg" alt="" width=330 height= 300/>
+                    <!-- <img src="Assets/images/signin-dog.jpg" alt="" width=330 height= 300/> -->
                     <h1>Support Sustainable Pet Adoption</h1>
                     <p>Adopt a pet, Transform a Life</p>
                     <button class="hidden" id="register">Sign In</button>
@@ -62,7 +62,7 @@
     </div>
 
 
-    <!-- <script src="script.js"></script> --> 
+    <script src="script.js"></script> 
     
 </body>
 </html>
