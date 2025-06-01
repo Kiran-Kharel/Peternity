@@ -13,7 +13,7 @@ if(isset($_GET['q']) && !empty($_GET['q'])) {
                  OR species LIKE '$searchTerm'
                  OR age LIKE '$searchTerm'
                  OR gender LIKE '$searchTerm'
-              ORDER BY id DESC
+              ORDER BY pet_id DESC
             ";
     
     $result = mysqli_query($conn, $query);
@@ -27,7 +27,7 @@ if(isset($_GET['q']) && !empty($_GET['q'])) {
     }
 }
 else{
-$fetchquery = "SELECT * FROM pet_details ORDER BY id DESC";
+$fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC";
 $fetchall = mysqli_query($conn, $fetchquery);
 
 if (mysqli_num_rows($fetchall) > 0) {

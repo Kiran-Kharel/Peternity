@@ -1,7 +1,3 @@
-<?php
-    include 'viewprofile.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,11 +45,28 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .favs {
+
+        outline: none;
+        /* border: none; */
+        background: transparent;
+    }
     </style>
 </head>
 
 <body class="bg-light">
     <div class="container py-5">
+        <?php
+        include 'check_user.php';   
+        include 'viewprofile.php';
+            
+            $user_id = $_SESSION['user_id'] ?? 0;
+
+            $fav_result = mysqli_query($conn, "SELECT * FROM favourites WHERE user_id = $user_id AND pet_id = $pet_id");
+            $isfavourite = mysqli_num_rows($fav_result) > 0;
+        ?>
+
         <div class="card detail-card shadow-lg">
             <div class="card-header text-center" style="background-color: #DFFBF3;">
                 <h1 class="mb-0"><?= $petName ?>'s Profile</h1>
@@ -99,6 +112,21 @@
                                     Unknown
                                     <?php endif; ?>
                                 </dd>
+                                <?php if($is_logged_in): ?>
+                                <form action="favourites.php" method="POST">
+                                    <input type="hidden" name="pet_id" value="<?= htmlspecialchars($pet_id) ?>">
+                                    <?php if ($isfavourite): ?>
+                                    <button type="submit" name="action" value="remove" class="favs"><i
+                                            class="fa-solid fa-heart"></i></button>
+                                    <?php else: ?>
+                                    <button type="submit" name="action" value="add" class="favs"><i
+                                            class="fa-regular fa-heart"></i></button>
+                                    <?php endif; ?>
+                                </form>
+                                <?php else: ?>
+                                <p><a href="login.php">Log in</a> to add this pet to your favourites.</p>
+                                <?php endif; ?>
+
                             </dl>
                         </div>
                     </div>

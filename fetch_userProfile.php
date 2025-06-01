@@ -1,5 +1,8 @@
 <?php 
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+if (isset($_SESSION['user_id']) || isset($_SESSION['UserEmail'])) {
     error_reporting(E_ALL);
     require_once 'connect.php';
     $userEmail =  $_SESSION['UserEmail'];
@@ -18,5 +21,7 @@
         echo"Error Finding User Details. ";
 
     }
+}
 
+    
 ?>

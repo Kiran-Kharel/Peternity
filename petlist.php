@@ -1,8 +1,3 @@
-<?php 
-    include 'viewpets.php';
-
-    $imgdir = "Assets/uploads/";
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,6 +25,12 @@
 <body>
     <?php include'navbar.php';?>
     <section class="petlistings container">
+        <?php 
+    include 'viewpets.php';
+
+    $imgdir = "Assets/uploads/";
+
+?>
 
         <div class="filterbtn">
             <button class="active" data-name="all">Show all</button>
@@ -42,7 +43,7 @@
             
                 foreach($outputarray as $x){
 
-                    $id = $x['id'];
+                    $id = $x['pet_id'];
                     $petName = $x['pet_name'];
                     $species = strtolower(trim($x['species']));
                     $age = $x['age'];

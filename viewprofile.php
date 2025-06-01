@@ -1,8 +1,8 @@
 <?php 
 require_once 'connect.php';
-$pid = $_GET['id'];
+$pet_id = $_GET['id'];
 
-$fetchquery = "SELECT * FROM pet_details WHERE id = $pid";
+$fetchquery = "SELECT * FROM pet_details WHERE pet_id = $pet_id";
 $fetch = mysqli_query($conn, $fetchquery);
 $data = mysqli_fetch_assoc($fetch);
 if(!empty($data)) {

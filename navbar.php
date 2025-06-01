@@ -2,7 +2,7 @@
     include 'fetch_userProfile.php';
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light">
     <div class="container-fluid w-100 h-100">
         <a class="navbar-brand" href="index.php">
             <img src="Assets/images/petlogo.png" alt="Logo">
@@ -19,12 +19,12 @@
         <div class="d-flex cta-rehome">
             <a href="rehome.php" class="btn btn-success rounded-pill">Rehome a Pet</a>
         </div>
-        <div class="d-flex ps-5">
+        <div class="d-flex ps-4 ">
             <a href="userprofile.php">
-                <img src="Assets/uploads/<?= $userprofile ?? 'default-pet.jpg' ?>" id="userprofile" alt="Adopter" 
-                    onerror="this.src='Assets/images/default-pet.jpg'" />
+                <img src="Assets/uploads/<?= $userprofile ?? 'default-pet.jpg' ?>" id="userprofile" width="52"
+                    height="52" alt="Adopter" onerror="this.src='Assets/images/default-pet.jpg'" />
             </a>
         </div>
-        
+
     </div>
 </nav>

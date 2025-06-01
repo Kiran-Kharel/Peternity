@@ -9,7 +9,6 @@
         $userEmail = $conn->real_escape_string(trim($_POST['useremail']));
         $userPwd = $conn->real_escape_string(trim($_POST['password']));
         $password = md5($userPwd);
-        echo $password;
         $select = "Select * from userprofile where user_email= '$userEmail'";
 		$result = $conn->query($select);
 		if( mysqli_num_rows($result)>0)
@@ -37,7 +36,7 @@
                             //setting session
                             $_SESSION['UserEmail'] = $data['user_email'];
                             $_SESSION['Password'] = $data['user_password'];
-
+                            $_SESSION['user_id'] = $data['user_id'];
                             //redirecting to Home page
                             header("Location:index.php");
                             exit();
@@ -54,20 +53,20 @@
             }
 
     }
-?> 
+?>
 <div class="container sign-in">
     <form action="" method="POST">
-        <div class="social-icons"> 
+        <div class="social-icons">
             <a href="#" class="icon"><i class="fab fa-google"></i></a>
             <a href="#" class="icon"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="icon"><i class="fab fa-instagram"></i></a>
         </div>
         <span>or use your email & password</span><br>
-        <input type="email" name="useremail" placeholder= "Email"/><br>
-        <input type="password" name="password" placeholder= "Password"/><br>
+        <input type="email" name="useremail" placeholder="Email" /><br>
+        <input type="password" name="password" placeholder="Password" /><br>
         <a href="#">Forget Your Password?</a><br>
-        <button type= "submit" name="login" class="form-button">Sign In</button>
+        <button type="submit" name="login" class="form-button">Sign In</button>
     </form>
-    
-    <p id="error1" ><?php echo $error; ?></p>
+
+    <p id="error1"><?php echo $error; ?></p>
 </div>

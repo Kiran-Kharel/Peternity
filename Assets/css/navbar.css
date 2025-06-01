@@ -33,14 +33,19 @@ nav div .navbar-brand{
     align-items: center;
 }
 .cta-rehome{
-    width: 10%;
+    width: 12%;
     height: auto;
 }
 .cta-rehome a{
     width: 100%;
 }
 #userprofile{
-    width: 55px;
-    height: 55px;
+    
+    border: 2px solid #666;
     border-radius: 50%;
+}
+#userprofile a,img{
+    margin: 0;
+    padding: 0;
+    object-fit: contain;
 }
