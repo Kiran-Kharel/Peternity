@@ -1,7 +1,7 @@
 <?php 
 require_once 'connect.php';
 require_once 'check_user.php';   
-            
+include 'check_session.php';            
 $fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
 $fetchall = mysqli_query($conn, $fetchquery);
 
