@@ -85,8 +85,10 @@ else {
         </div>
         <section class="card-section">
             <h3>Adoption History</h3>
-            <div class="parts">
-                <?php            
+            <div class="container bg-light">
+                <div class="row">
+                    <div class="filtercards mt-5">
+                        <?php            
                 foreach($outputarray as $x){
 
                     $id = $x['pet_id'];
@@ -100,6 +102,10 @@ else {
                     echo '<div class="card px-0" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
                 }        
             ?>
+
+                    </div>
+
+                </div>
             </div>
         </section>
         <section class="card-section">
@@ -115,10 +121,11 @@ else {
             </div>
         </section>
         <section class="card-section">
-            <h3>Saved / Favorite Pets</h3>
-            <div class="favorites-grid">
-                <div class="filtercards mt-5">
-                    <?php
+            <h3>Saved/Favorite Pets</h3>
+            <div class="container bg-light">
+                <div class="row">
+                    <div class="filtercards mt-5">
+                        <?php
             
                 foreach($favarray as $y){
 
@@ -136,8 +143,24 @@ else {
             
             ?>
 
-                </div>
+                    </div>
 
+                </div>
             </div>
+
         </section>
     </div>
+    <script>
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+
+        card.addEventListener('click', () => {
+            const category = card.getAttribute('data-name');
+            window.location.href = `petlist.php?name=${category}`;
+        });
+    });
+    </script>
+</body>
+
+</html>
