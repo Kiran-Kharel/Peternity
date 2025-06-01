@@ -24,7 +24,7 @@
 		{
 			echo "No record found";
 		}
-        echo $data['user_password'];  
+        // echo $data['user_id'];  
            /*echo"<pre>";
            print_r($result);*/
                 //verify the password

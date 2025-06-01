@@ -1,7 +1,7 @@
 <?php 
 require_once 'connect.php';
 require_once 'check_user.php';   
-            
+
 $fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
 $fetchall = mysqli_query($conn, $fetchquery);
 
@@ -61,7 +61,9 @@ else {
 </head>
 
 <body>
-    <?php include'navbar.php';?>
+    <?php include 'navbar.php';?>
+    
+   
 
     <div class="user-section">
         <div class="topsec d-flex justify-content-between">
