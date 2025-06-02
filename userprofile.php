@@ -1,39 +1,41 @@
 <?php 
-require_once 'connect.php';
-require_once 'check_user.php';   
+    require_once 'connect.php';
+    require_once 'check_user.php';   
+    include 'check_session.php'; 
+    include 'fetch_userProfile.php';     
+    
+    $fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
+    $fetchall = mysqli_query($conn, $fetchquery);
 
-$fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
-$fetchall = mysqli_query($conn, $fetchquery);
+    $outputarray = array();
+    if (mysqli_num_rows($fetchall) > 0) {
+        while ($x = mysqli_fetch_assoc($fetchall)) {
+            array_push($outputarray, $x);
+        }
+    }
+    else {
+        echo" 😭 No Pets Found. ";
 
-$outputarray = array();
-if (mysqli_num_rows($fetchall) > 0) {
-	while ($x = mysqli_fetch_assoc($fetchall)) {
-		array_push($outputarray, $x);
-	}
-}
-else {
-    echo" 😭 No Pets Found. ";
+    }
+    $imgdir = "Assets/uploads/";
 
-}
-$imgdir = "Assets/uploads/";
+    $user_id = $_SESSION['user_id'] ?? 0;
 
-$user_id = $_SESSION['user_id'] ?? 0;
+    $favs_result = mysqli_query($conn,
+        "SELECT pet_details.* FROM pet_details
+        INNER JOIN favourites ON pet_details.pet_id = favourites.pet_id
+        WHERE favourites.user_id = $user_id"
+    );
+    $favarray = array();
+    if (mysqli_num_rows($favs_result) > 0) {
+        while ($x = mysqli_fetch_assoc($favs_result)) {
+            array_push($favarray, $x);
+        }
+    }
+    else {
+        echo" 😔 You donot have any Favourite Pets. ";
 
-$favs_result = mysqli_query($conn,
-    "SELECT pet_details.* FROM pet_details
-     INNER JOIN favourites ON pet_details.pet_id = favourites.pet_id
-     WHERE favourites.user_id = $user_id"
-);
-$favarray = array();
-if (mysqli_num_rows($favs_result) > 0) {
-	while ($x = mysqli_fetch_assoc($favs_result)) {
-		array_push($favarray, $x);
-	}
-}
-else {
-    echo" 😔 You donot have any Favourite Pets. ";
-
-}
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +78,7 @@ else {
         </div>
 
         <div class="profile-header">
-            <img src="Assets/images/default-pet.jpg" alt="Profile" id="profile-pic" /><br />
+            <img src="Assets/uploads/<?= $userprofile ?? 'default-pet.jpg' ?>" alt="Profile" id="profile-pic" /><br />
             <div class="user-info">
                 <h2><?php echo $userName; ?></h2>
                 <p><strong>Email:</strong>&nbsp;<?php echo $userEmail; ?></p>
