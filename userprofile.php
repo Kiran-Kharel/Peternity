@@ -2,7 +2,7 @@
     require_once 'connect.php';
     require_once 'check_user.php';   
     include 'check_session.php'; 
-    include 'fetch_userProfile.php';     
+       
     
     $fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
     $fetchall = mysqli_query($conn, $fetchquery);
@@ -64,7 +64,6 @@
 
 <body>
     <?php include 'navbar.php';?>
-    
    
 
     <div class="user-section">
@@ -83,7 +82,7 @@
                 <h2><?php echo $userName; ?></h2>
                 <p><strong>Email:</strong>&nbsp;<?php echo $userEmail; ?></p>
                 <p><strong>Address:</strong>&nbsp;<?php echo $userAddress; ?></p>
-                <a href="#" class="edit-btn">Edit Profile</a>
+                <a href="editprofile.php" class="edit-btn">Edit Profile</a>
                 <a href="#" class="password-btn">Change Password</a>
             </div>
         </div>
@@ -160,8 +159,8 @@
     cards.forEach(card => {
 
         card.addEventListener('click', () => {
-            const category = card.getAttribute('data-name');
-            window.location.href = `petlist.php?name=${category}`;
+            const pet = card.getAttribute('id');
+            window.location.href = `petdetails.php?id=${pet}`;
         });
     });
     </script>
