@@ -156,8 +156,8 @@ else {
     cards.forEach(card => {
 
         card.addEventListener('click', () => {
-            const category = card.getAttribute('data-name');
-            window.location.href = `petlist.php?name=${category}`;
+            const pet = card.getAttribute('id');
+            window.location.href = `petdetails.php?id=${pet}`;
         });
     });
     </script>
