@@ -4,21 +4,7 @@
     include 'check_session.php'; 
     include 'fetch_userProfile.php'; //databse existing data
     $path = "Assets/uploads/";
-    // $outputarray = array();
-	// 	$select = "select * from  userprofile";
-	// 	$result = mysqli_query($con, $select);
-	// 	if(mysqli_num_rows($result)>0){
-	// 			while($data = mysqli_fetch_assoc($result))
-	// 	{
-	// 		array_push($outputarray, $data);
-	// 	}
-	// 	   echo $outputarray;
-	// 	}		
-	// 	else
-	// 	{
-	// 		echo "No record found";
-	// 	}
-    
+      
     if(isset($_POST['submit']))
 	{        
       	$userid = $_POST['user_id'];	
