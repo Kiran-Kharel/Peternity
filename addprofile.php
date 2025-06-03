@@ -1,7 +1,8 @@
 <?php
 require_once 'connect.php';
 include 'check_user.php';
-    if(isset($_POST['submit'])){
+
+    if($is_logged_in && isset($_POST['submit'])){
 
     $petName = $conn->real_escape_string(trim($_POST['petName']));
     $species = $conn->real_escape_string(trim($_POST['species']));
@@ -89,5 +90,8 @@ include 'check_user.php';
     // $stmt->close();
     // $conn->close();
 
+    }else {
+        header("Location: login.php");
+        exit();
     }
 ?>

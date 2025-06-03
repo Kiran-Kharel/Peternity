@@ -75,7 +75,7 @@
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 15px;
 }
-.fav-card {
+/* .fav-card {
   background: #fff;
   border-radius: 12px;
   padding: 10px;
@@ -101,4 +101,4 @@
   padding: 6px 10px;
   border-radius: 5px;
   display: inline-block;
-}
+} */

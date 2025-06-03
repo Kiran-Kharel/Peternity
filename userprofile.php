@@ -203,6 +203,11 @@ else {
                             <p class="card-text">Species: <?= htmlspecialchars($pet['species']) ?><br>
                                 Status: <?= $pet['adopted'] == 0 ? 'Available' : 'Adopted' ?>
                             </p>
+                            <form action="delete_pet.php" method="POST"
+                                onsubmit="return confirm('Are you sure you want to delete this pet?');">
+                                <input type="hidden" name="pet_id" value="<?= $pet['pet_id'] ?>">
+                                <button type="submit" name="delete" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
 
                         </div>
                     </div>
@@ -320,7 +325,7 @@ else {
                     <?php if (!empty($error)): ?>
                     <span class="h5 text-center mt-5"><?php echo $error; ?></span>
                     <?php endif; ?>
-                    <div class="filtercards mt-5 ">
+                    <div class="filtercards ">
 
                         <?php
             
@@ -334,7 +339,7 @@ else {
                     $imgprofile = $y['photo_path'];
                     $imgPath = (!empty($imgprofile) && file_exists($imgdir.$imgprofile))? $imgdir.$imgprofile: $imgdir.'default-pet.jpg';
 
-                    echo '<div class="card fav-card" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
+                    echo '<div class="card fav-card rehomer-card p-0 ms-2" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
 
                 }
             
