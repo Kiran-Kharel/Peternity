@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peternity</title>
+    <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -190,6 +191,19 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="apply_adoption.php?i=<?= $pet_id ?>" class="btn btn-success rounded-pill px-5">Apply for
+                        Adoption</a>
+
+                    <!-- < if (!$pet['adopted'] && $is_logged_in): ?>
+                    <form method="POST" action="apply_adoption.php">
+                        <input type="hidden" name="pet_id" value="< $pet['pet_id'] ?>">
+                        <button type="submit" class="btn btn-success">Apply for Adoption</button>
+                    </form>
+                    < elseif (!$is_logged_in): ?>
+                    <p><a href="login.php">Login</a> to apply for adoption.</p>
+                    < endif; ?> -->
                 </div>
             </div>
         </div>

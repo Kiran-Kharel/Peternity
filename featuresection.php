@@ -39,7 +39,7 @@ $imgdir = "Assets/uploads/";
         
         ?>
         </div>
-        <div class="my-5 text-center">
+        <div class="my-4 text-center">
             <a href="petlist.php" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill"
                 type="button">
                 View More Pets &nbsp; <i class="fa-solid fa-angles-right"></i>

@@ -1,23 +1,85 @@
 <?php 
 require_once 'connect.php';
 require_once 'check_user.php';   
-include 'check_session.php';            
-$fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
-$fetchall = mysqli_query($conn, $fetchquery);
+include 'check_session.php';  
 
-$outputarray = array();
-if (mysqli_num_rows($fetchall) > 0) {
-	while ($x = mysqli_fetch_assoc($fetchall)) {
-		array_push($outputarray, $x);
-	}
-}
-else {
-    echo" 😭 No Pets Found. ";
-
-}
 $imgdir = "Assets/uploads/";
 
 $user_id = $_SESSION['user_id'] ?? 0;
+
+
+$rehomer_pets = [];
+$application_status = [];
+$adoption_history = [];
+$user_info = [];
+$groupedApplications = [];
+
+
+
+if ($is_logged_in) {
+    // Posted pets for rehoming
+    $pets_result = mysqli_query($conn, "SELECT * FROM pet_details JOIN userprofile ON pet_details.user_id = userprofile.user_id WHERE pet_details.user_id = $user_id");
+    while ($row = mysqli_fetch_assoc($pets_result)) {
+        $rehomer_pets[] = $row;
+    }
+
+    //Adoption history
+    $history_result = mysqli_query($conn, "
+     SELECT 
+    aa.application_id,
+    aa.application_status,
+    aa.submitted_date,
+    p.*,
+    u.user_name,
+    u.user_email,
+    u.user_address
+FROM adoption_applications aa
+JOIN pet_details p ON aa.pet_id = p.pet_id
+JOIN userprofile u ON aa.user_id = u.user_id
+       WHERE u.user_id = $user_id AND aa.application_status = 'Approved'");
+    while ($row = mysqli_fetch_assoc($history_result)) {
+        $adoption_history[] = $row;
+    }
+    
+    //  status update
+    $application_result = mysqli_query($conn, "
+        SELECT 
+    aa.application_id,
+    aa.application_status,
+    aa.submitted_date,
+    p.pet_id,
+    p.pet_name,
+    p.photo_path,
+    u.user_name AS applicant_name,
+    u.user_email AS applicant_email,
+    u.user_address AS applicant_address
+FROM adoption_applications aa
+JOIN pet_details p ON aa.pet_id = p.pet_id
+JOIN userprofile u ON aa.user_id = u.user_id
+WHERE p.adopted = 0
+  AND p.user_id = $user_id
+ORDER BY aa.submitted_date DESC
+    ");
+    while ($row = mysqli_fetch_assoc($application_result)) {
+        $groupedApplications[$row['pet_id']]['pet_name'] = $row['pet_name'];
+        $groupedApplications[$row['pet_id']]['photo_path'] = $row['photo_path'];
+        $groupedApplications[$row['pet_id']]['applications'][] = $row;
+    }
+}
+
+//Applications
+$applied_result = mysqli_query($conn, "
+SELECT 
+aa.application_id,
+aa.application_status,
+aa.submitted_date,
+p.*
+FROM adoption_applications aa
+JOIN pet_details p ON aa.pet_id = p.pet_id
+WHERE aa.user_id = $user_id");
+while ($row = mysqli_fetch_assoc($applied_result)) {
+   $application_status[] = $row;
+}
 
 $favs_result = mysqli_query($conn,
     "SELECT pet_details.* FROM pet_details
@@ -31,7 +93,7 @@ if (mysqli_num_rows($favs_result) > 0) {
 	}
 }
 else {
-    echo" 😔 You donot have any Favourite Pets. ";
+    $error = " 😔 You donot have any Favourite Pets. ";
 
 }
 ?>
@@ -42,6 +104,7 @@ else {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peternity</title>
+    <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -56,7 +119,46 @@ else {
     <link rel="stylesheet" href="Assets/css/petlist.css">
     <link rel="stylesheet" href="Assets/css/userprofile.css">
 
+    <style>
+    .section {
+        margin-bottom: 30px;
+    }
 
+    /* .container {
+        min-height: 30vh;
+        width: 100%;
+        padding: 20px;
+        margin: 50px auto;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    } */
+    .section-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .card.rehomer-card:hover {
+        transform: none;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+        border: 2px solid #41613A;
+        cursor: default;
+    }
+
+    .card h4 {
+        margin: 0 0 10px 0;
+    }
+
+    h4 {
+        color: #047857;
+    }
+    </style>
 
 </head>
 
@@ -83,48 +185,141 @@ else {
                 <a href="#" class="password-btn">Change Password</a>
             </div>
         </div>
-        <section class="card-section">
-            <h3>Adoption History</h3>
-            <div class="container bg-light">
-                <div class="row">
-                    <div class="filtercards mt-5">
-                        <?php            
-                foreach($outputarray as $x){
 
-                    $id = $x['pet_id'];
-                    $petName = $x['pet_name'];
-                    $species = strtolower(trim($x['species']));
-                    $age = $x['age'];
-                    $gender = $x['gender'];
-                    $imgprofile = $x['photo_path'];
-                    $imgPath = (!empty($imgprofile) && file_exists($imgdir.$imgprofile))? $imgdir.$imgprofile: $imgdir.'default-pet.jpg';
+        <?php if (!empty($rehomer_pets)): ?>
+        <div class="section">
+            <h4>Your Posted Pets</h4>
+            <div class="container section-container">
+                <div class="row d-flex flex-wrap gap-3">
+                    <?php foreach ($rehomer_pets as $pet): ?>
 
-                    echo '<div class="card px-0" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
-                }        
-            ?>
+                    <div class="card rehomer-card px-0 ms-2">
+                        <img src="<?= $imgdir.$pet['photo_path'] ?>" class="card-img-top" alt="<?= $pet['pet_name'] ?>"
+                            onerror="this.src='<?= $imgdir.'default-pet.jpg'?>'">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars(string: $pet['pet_name']) ?></h5>
+                            <p class="card-text">Species: <?= htmlspecialchars($pet['species']) ?><br>
+                                Status: <?= $pet['adopted'] == 0 ? 'Available' : 'Adopted' ?>
+                            </p>
 
+                        </div>
                     </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
 
+
+        <div class="section">
+            <h4>Adoption Applications for Your Pets</h4>
+            <div class="container section-container">
+                <div class="row d-flex flex-wrap gap-3">
+                    <?php if (empty($groupedApplications)): ?>
+                    <p class="h5 text-center mt-5">No applications yet.</p>
+                    <?php else: ?>
+                    <?php foreach ($groupedApplications as $pet_id => $data): ?>
+                    <div class="card rehomer-card px-0 ms-2">
+                        <img src="<?= $imgdir.$data['photo_path']; ?>" class="card-img-top"
+                            alt="<?= $data['pet_name'] ?>" onerror="this.src='<?= $imgdir.'default-pet.jpg'?>'">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($data['pet_name']) ?></h5>
+                            <?php foreach ($data['applications'] as $app): ?>
+                            <div class="border rounded p-3 mb-3">
+                                <p><strong>Applicant:</strong> <?= htmlspecialchars($app['applicant_name']) ?>
+                                </p>
+                                <p><strong>Status:</strong> <?= $app['application_status'] ?></p>
+                                <?php if ($app['application_status'] === 'Under Review'): ?>
+                                <form action="update_application_status.php" method="POST" class="d-flex gap-2">
+                                    <input type="hidden" name="application_id" value="<?= $app['application_id'] ?>">
+                                    <input type="hidden" name="pet_id" value="<?= $pet_id ?>">
+                                    <button type="submit" name="status" value="Approved"
+                                        class="btn btn-success">Approve</button>
+                                    <button type="submit" name="status" value="Rejected"
+                                        class="btn btn-danger">Reject</button>
+                                </form>
+                                <?php endif; ?>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </div>
             </div>
-        </section>
-        <section class="card-section">
-            <h3>Application Status</h3>
-            <div class="parts">
-                <img src="Assets/images/cats-8105667_1280.jpg" alt="Cat" />
-                <div class="card-info">
-                    <h4>Name: Kitty</h4>
-                    <p>Species: Cat</p>
-                    <p>Status: Under Review</p>
-                    <p>Submitted: 2025-05-20</p>
+        </div>
+
+        <?php if (!empty($application_status)): ?>
+        <div class="section">
+            <h4>Application Status</h4>
+            <div class="container section-container">
+                <div class="row d-flex flex-wrap gap-3">
+                    <?php foreach ($application_status as $app): ?>
+
+                    <div class="card rehomer-card px-0 ms-2">
+                        <img src="<?= $imgdir.$app['photo_path'] ?>" class="card-img-top" alt="<?= $app['pet_name'] ?>"
+                            onerror="this.src='<?= $imgdir.'default-pet.jpg'?>'">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars(string: $app['pet_name']) ?></h5>
+                            <p class="card-text"><strong>Species:</strong> <?= htmlspecialchars($app['species']) ?>
+                                <br>
+                                <strong>Status:</strong> <?= htmlspecialchars($app['application_status']) ?><br>
+                                <strong>Submitted:</strong> <?= $app['submitted_date'] ?><br>
+
+                            </p>
+
+
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-        </section>
+        </div>
+        <?php endif; ?>
+
+
+
+        <?php if (!empty($adoption_history)): ?>
+        <div class="section">
+            <h4>Adoption History</h4>
+            <div class="container section-container">
+                <div class="row d-flex flex-wrap gap-3">
+                    <?php foreach ($adoption_history as $pet): ?>
+
+                    <div class="card rehomer-card px-0 ms-2">
+                        <img src="<?= $imgdir.$pet['photo_path'] ?>" class="card-img-top" alt="<?= $pet['pet_name'] ?>"
+                            onerror="this.src='<?= $imgdir.'default-pet.jpg'?>'">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars(string: $pet['pet_name']) ?></h5>
+                            <p class="card-text"><strong>Species:</strong> <?= htmlspecialchars($pet['species']) ?>
+                                <br>
+                                <strong>Status:</strong> Adopted <br>
+                                <strong>Adopter Name:</strong> <?= htmlspecialchars($pet['user_name']) ?><br>
+                                <strong>Adopter Address:</strong> <?= htmlspecialchars($pet['user_address']) ?><br>
+                                <strong>Adopter Contact:</strong> <?= htmlspecialchars($pet['user_email']) ?><br>
+
+                            </p>
+
+
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
+
+
         <section class="card-section">
-            <h3>Saved/Favorite Pets</h3>
-            <div class="container bg-light">
+            <h4>Saved/Favorite Pets</h4>
+            <div class="container section-container">
                 <div class="row">
-                    <div class="filtercards mt-5">
+                    <?php if (!empty($error)): ?>
+                    <span class="h5 text-center mt-5"><?php echo $error; ?></span>
+                    <?php endif; ?>
+                    <div class="filtercards mt-5 ">
+
                         <?php
             
                 foreach($favarray as $y){
@@ -137,7 +332,7 @@ else {
                     $imgprofile = $y['photo_path'];
                     $imgPath = (!empty($imgprofile) && file_exists($imgdir.$imgprofile))? $imgdir.$imgprofile: $imgdir.'default-pet.jpg';
 
-                    echo '<div class="card" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
+                    echo '<div class="card fav-card" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
 
                 }
             
@@ -151,7 +346,7 @@ else {
         </section>
     </div>
     <script>
-    const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll('.fav-card');
 
     cards.forEach(card => {
 

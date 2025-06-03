@@ -13,6 +13,10 @@ if(isset($_GET['q']) && !empty($_GET['q'])) {
                  OR species LIKE '$searchTerm'
                  OR age LIKE '$searchTerm'
                  OR gender LIKE '$searchTerm'
+                 OR place LIKE '$searchTerm'
+                 OR owner_name LIKE '$searchTerm'
+                 OR email LIKE '$searchTerm'
+                 AND adopted = 0
               ORDER BY pet_id DESC
             ";
     
@@ -27,7 +31,7 @@ if(isset($_GET['q']) && !empty($_GET['q'])) {
     }
 }
 else{
-$fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC";
+$fetchquery = "SELECT * FROM pet_details WHERE adopted = 0 ORDER BY pet_id DESC";
 $fetchall = mysqli_query($conn, $fetchquery);
 
 if (mysqli_num_rows($fetchall) > 0) {
