@@ -95,7 +95,7 @@ if (mysqli_num_rows($favs_result) > 0) {
 else {
     $error = " 😔 You donot have any Favourite Pets. ";
 
-}
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,6 +115,7 @@ else {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="Assets/css/style.css">
     <link rel="stylesheet" href="Assets/css/navbar.css">
     <link rel="stylesheet" href="Assets/css/petlist.css">
     <link rel="stylesheet" href="Assets/css/userprofile.css">
@@ -163,7 +164,8 @@ else {
 </head>
 
 <body>
-    <?php include'navbar.php';?>
+    <?php include 'navbar.php';?>
+
 
     <div class="user-section">
         <div class="topsec d-flex justify-content-between">
@@ -176,13 +178,13 @@ else {
         </div>
 
         <div class="profile-header">
-            <img src="Assets/images/default-pet.jpg" alt="Profile" id="profile-pic" /><br />
+            <img src="Assets/uploads/<?= $userprofile ?? 'default-pet.jpg' ?>" alt="Profile" id="profile-pic" /><br />
             <div class="user-info">
                 <h2><?php echo $userName; ?></h2>
                 <p><strong>Email:</strong>&nbsp;<?php echo $userEmail; ?></p>
                 <p><strong>Address:</strong>&nbsp;<?php echo $userAddress; ?></p>
-                <a href="#" class="edit-btn">Edit Profile</a>
-                <a href="#" class="password-btn">Change Password</a>
+                <a href="editprofile.php" class="edit-btn">Edit Profile</a>
+                <a href="changePassword.php" class="password-btn">Change Password</a>
             </div>
         </div>
 
