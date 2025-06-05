@@ -1,29 +1,26 @@
 <?php
     require 'connect.php';
+    require_once 'check_user.php'; 
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $token = $_POST['token'];
-        $newPass = $_POST['new_password'];
-        $confirmPass = $_POST['confirm_password'];
+        $email = $_POST['email'] ?? '';
+        $new = $_POST['new_password'] ?? '';
+        $confirm = $_POST['confirm_password'] ?? '';
 
-        if ($newPass !== $confirmPass) {
+        if ($new !== $confirm) {
             echo "Passwords do not match.";
             exit;
         }
 
-        $stmt = $conn->prepare("SELECT user_id, reset_expiry FROM userprofile WHERE reset_token = ?");
-        $stmt->execute([$token]);
-        $user = $stmt->fetch();
+        $hashed = md5($new);
+        $stmt = $conn->prepare("UPDATE userprofile SET user_password = ? WHERE user_email = ?");
+        $updated = $stmt->execute([$hashed, $email]);
 
-        if (!$user || strtotime($user['reset_expiry']) < time()) {
-            echo "Invalid or expired token.";
-            exit;
+        if ($updated) {
+            echo "<script>alert('Password updated successfully!'); window.location.href='login.php';</script>";
+        } else {
+            echo "<script>alert('Failed to update password.');</script>";
         }
 
-        $hashedPassword = md5($newPass);
-        $stmt = $conn->prepare("UPDATE users SET password = '$hashedPassword', reset_token = NULL, reset_expiry = NULL WHERE u_id = ?");
-        $stmt->execute([$hashedPassword, $user['id']]);
-
-        echo "Password has been reset successfully!";
     }
 ?>
