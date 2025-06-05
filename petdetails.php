@@ -1,3 +1,19 @@
+<?php
+        include 'viewprofile.php';
+        include 'check_user.php';
+include 'fetch_userProfile.php';
+
+        $fetch_user = "SELECT * FROM userprofile WHERE user_id = $userID";
+        $fetch = mysqli_query($conn, $fetch_user);
+        $data = mysqli_fetch_assoc($fetch);
+        $userName = $data['user_name'];
+        $userEmail = $data['user_email'];
+        $userPhone = $data['user_phone'];
+        $userAddress = $data['user_address'];
+
+            $fav_result = mysqli_query($conn, "SELECT * FROM favourites WHERE user_id = $userId AND pet_id = $pet_id");
+            $isfavourite = mysqli_num_rows($fav_result) > 0;
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,20 +69,20 @@
         /* border: none; */
         background: transparent;
     }
+
+    .disabled-link {
+        pointer-events: none;
+        border: none;
+        background-color: #999;
+        text-decoration: none;
+        cursor: default;
+    }
     </style>
 </head>
 
 <body class="bg-light">
     <div class="container py-5">
-        <?php
-        include 'check_user.php';   
-        include 'viewprofile.php';
-            
-            $user_id = $_SESSION['user_id'] ?? 0;
 
-            $fav_result = mysqli_query($conn, "SELECT * FROM favourites WHERE user_id = $user_id AND pet_id = $pet_id");
-            $isfavourite = mysqli_num_rows($fav_result) > 0;
-        ?>
 
         <div class="card detail-card shadow-lg">
             <div class="card-header text-center" style="background-color: #DFFBF3;">
@@ -157,26 +173,24 @@
                         <div class="col-md-6">
                             <dl class="row fs-5">
                                 <dt class="col-sm-4">Name</dt>
-                                <dd class="col-sm-8"><?= $ownerName ?></dd>
+                                <dd class="col-sm-8"><?= $userName ?></dd>
 
                                 <dt class="col-sm-4">Email</dt>
                                 <dd class="col-sm-8">
-                                    <a href="mailto:<?=$email ?>" class="text-decoration-none">
-                                        <?= $email ?>
-                                    </a>
+                                    <?= $userEmail ?>
                                 </dd>
 
-                                <?php if($phone): ?>
+                                <?php if($userPhone): ?>
                                 <dt class="col-sm-4">Phone</dt>
                                 <dd class="col-sm-8">
-                                    <a href="tel:<?= $phone ?>" class="text-decoration-none">
-                                        <?= $phone ?>
-                                    </a>
+
+                                    <?= $userPhone ?>
+
                                 </dd>
                                 <?php endif; ?>
 
                                 <dt class="col-sm-4">Location</dt>
-                                <dd class="col-sm-8"><?= $location ?></dd>
+                                <dd class="col-sm-8"><?= $userAddress ?></dd>
                             </dl>
                         </div>
 
@@ -185,17 +199,22 @@
                                 <h4 class="h5 text-muted mb-3">Rehoming Reason</h4>
                                 <blockquote class="blockquote m-0">
                                     <p class="fst-italic text-secondary">
-                                        "<?= $reason ?>"
+                                        <?= $reason ?>
                                     </p>
                                 </blockquote>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
+                    <?php if($userId == $userID || $is_adopted == 1): ?>
+                    <a href="apply_adoption.php?i=<?= $pet_id ?>" onclick="return false;"
+                        class="btn btn-success rounded-pill px-5 disabled-link">Apply for
+                        Adoption</a>
+                    <?php else: ?>
                     <a href="apply_adoption.php?i=<?= $pet_id ?>" class="btn btn-success rounded-pill px-5">Apply for
                         Adoption</a>
-
+                    <?php endif; ?>
                     <!-- < if (!$pet['adopted'] && $is_logged_in): ?>
                     <form method="POST" action="apply_adoption.php">
                         <input type="hidden" name="pet_id" value="< $pet['pet_id'] ?>">

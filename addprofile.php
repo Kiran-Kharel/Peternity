@@ -1,8 +1,8 @@
 <?php
 require_once 'connect.php';
 include 'check_user.php';
-
-    if($is_logged_in && isset($_POST['submit'])){
+if($is_logged_in){
+    if(isset($_POST['submit'])){
 
     $petName = $conn->real_escape_string(trim($_POST['petName']));
     $species = $conn->real_escape_string(trim($_POST['species']));
@@ -43,10 +43,6 @@ include 'check_user.php';
         gender, 
         bio, 
         health_info, 
-        owner_name, 
-        email, 
-        phone, 
-        place, 
         rehoming_reason, 
         photo_path,
         adopted,
@@ -59,10 +55,6 @@ include 'check_user.php';
         '$gender',
         '$petBio',
         '$healthinfo',
-        '$ownerName',
-        '$email',
-        '$phone',
-        '$location',
         '$reason',
         '$photoPath',
         0,
@@ -90,7 +82,7 @@ include 'check_user.php';
     // $stmt->close();
     // $conn->close();
 
-    }else {
+    }}else {
         header("Location: login.php");
         exit();
     }

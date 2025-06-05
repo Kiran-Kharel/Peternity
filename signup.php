@@ -9,6 +9,7 @@
         $userRePwd = $conn->real_escape_string(trim($_POST['user_repassword']));
         $userAddress = $conn->real_escape_string(trim($_POST['user_address']));
         $userEmail = $conn->real_escape_string(filter_var($_POST['user_email'], FILTER_SANITIZE_EMAIL));  
+        $userPhone = $conn->real_escape_string(trim($_POST['user_phone']));
         $imgPath = null;
 
         if($userPwd !== $userRePwd){
@@ -37,13 +38,15 @@
             user_password, 
             user_image, 
             user_address, 
-            user_email	
+            user_email,	
+            user_phone
         ) VALUES (
             '$userName',
             '$pwd',
             '$imgPath',
             '$userAddress',
-            '$userEmail'       
+            '$userEmail',
+            '$userPhone'       
         )";
 
         $insertion = mysqli_query($conn, $query);
@@ -118,14 +121,15 @@
         <div class="col-md-6 col-lg-5">
             <div class="card auth-card shadow p-4">
                 <h3 class="text-center mb-4">Sign Up</h3>
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" name="user_name" required>
+                        <input type="text" class="form-control" name="user_name" pattern="[A-Za-z ]{3,50}" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="user_email" required>
+                        <input type="email" class="form-control" name="user_email"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
@@ -142,6 +146,10 @@
                         <input type="text" class="form-control" name="user_address">
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" pattern="[0-9]{10}" name="user_phone">
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Profile Image</label>
                         <input type="file" class="form-control" name="user_image" accept="image/*">
                     </div>
@@ -153,6 +161,22 @@
             </div>
         </div>
     </div>
+    <script>
+    (() => {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+    </script>
 </body>
 
 </html>

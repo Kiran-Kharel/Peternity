@@ -36,7 +36,7 @@ if ($is_logged_in) {
 FROM adoption_applications aa
 JOIN pet_details p ON aa.pet_id = p.pet_id
 JOIN userprofile u ON aa.user_id = u.user_id
-       WHERE u.user_id = $user_id AND aa.application_status = 'Approved'");
+       WHERE p.user_id = $user_id AND aa.application_status = 'Approved'");
     while ($row = mysqli_fetch_assoc($history_result)) {
         $adoption_history[] = $row;
     }
@@ -65,7 +65,7 @@ ORDER BY aa.submitted_date DESC
         $groupedApplications[$row['pet_id']]['photo_path'] = $row['photo_path'];
         $groupedApplications[$row['pet_id']]['applications'][] = $row;
     }
-}
+
 
 //Applications
 $applied_result = mysqli_query($conn, "
@@ -96,6 +96,8 @@ else {
     $error = " 😔 You donot have any Favourite Pets. ";
 
     }
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -178,11 +180,13 @@ else {
         </div>
 
         <div class="profile-header">
-            <img src="Assets/uploads/<?= $userprofile ?? 'default-pet.jpg' ?>" alt="Profile" id="profile-pic" /><br />
+            <img src="<?= $imgdir.$userImage ?? 'default-pet.jpg' ?>" alt="Profile" id="profile-pic"
+                onerror="this.src='Assets/images/default-pet.jpg'" /><br />
             <div class="user-info">
                 <h2><?php echo $userName; ?></h2>
                 <p><strong>Email:</strong>&nbsp;<?php echo $userEmail; ?></p>
                 <p><strong>Address:</strong>&nbsp;<?php echo $userAddress; ?></p>
+                <p><strong>Phone:</strong>&nbsp;<?php echo $userPhone; ?></p>
                 <a href="editprofile.php" class="edit-btn">Edit Profile</a>
                 <a href="changePassword.php" class="password-btn">Change Password</a>
             </div>
@@ -203,12 +207,15 @@ else {
                             <p class="card-text">Species: <?= htmlspecialchars($pet['species']) ?><br>
                                 Status: <?= $pet['adopted'] == 0 ? 'Available' : 'Adopted' ?>
                             </p>
-                            <form action="delete_pet.php" method="POST"
-                                onsubmit="return confirm('Are you sure you want to delete this pet?');">
-                                <input type="hidden" name="pet_id" value="<?= $pet['pet_id'] ?>">
-                                <button type="submit" name="delete" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-
+                            <div class="d-flex gap-2">
+                                <a href="update_pet.php?id=<?= $pet['pet_id'] ?>"
+                                    class="btn btn-primary btn-sm">Update</a>
+                                <form action="delete_pet.php" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this pet?');">
+                                    <input type="hidden" name="pet_id" value="<?= $pet['pet_id'] ?>">
+                                    <button type="submit" name="delete" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -291,6 +298,7 @@ else {
             <h4>Adoption History</h4>
             <div class="container section-container">
                 <div class="row d-flex flex-wrap gap-3">
+
                     <?php foreach ($adoption_history as $pet): ?>
 
                     <div class="card rehomer-card px-0 ms-2">

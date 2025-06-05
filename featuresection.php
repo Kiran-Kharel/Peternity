@@ -1,7 +1,7 @@
 <?php 
 require_once 'connect.php';
 
-$fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
+$fetchquery = "SELECT * FROM pet_details WHERE adopted = 0 ORDER BY pet_id DESC LIMIT 3";
 $fetchall = mysqli_query($conn, $fetchquery);
 
 $outputarray = array();

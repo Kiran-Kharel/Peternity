@@ -40,6 +40,7 @@
             <button data-name="other">Others</button>
         </div>
         <div class="filtercards mt-5">
+            <span id="error" class="text-danger"><?php echo $error; ?></span>
             <?php
             
                 foreach($outputarray as $x){
@@ -49,10 +50,11 @@
                     $species = strtolower(trim($x['species']));
                     $age = $x['age'];
                     $gender = $x['gender'];
+                    $gender = (empty($gender))?'Unknown':$gender;
                     $imgprofile = $x['photo_path'];
                     $imgPath = (!empty($imgprofile) && file_exists($imgdir.$imgprofile))? $imgdir.$imgprofile: $imgdir.'default-pet.jpg';
 
-                    echo '<div class="card" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.' '.'</p></div></div> ';
+                    echo '<div class="card" id="'.$id.'" data-name="'.$species.'"><img src="'.$imgPath.'" class="card-img-top" alt="'.$petName.'" onerror="this.src=\''.$imgdir.'default-pet.jpg\'"><div class="card-body"><h5 class="card-title">'.$petName.'</h5><p class="card-text">Species: '.$species.' <br>Age: '.$age.' years <br>Gender: '.$gender.'</p></div></div> ';
 
                 }
             

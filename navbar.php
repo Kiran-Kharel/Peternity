@@ -21,8 +21,8 @@
         </div>
         <div class="d-flex ps-4 ">
             <a href="userprofile.php">
-                <img src="Assets/uploads/<?= $userprofile ?? 'default-pet.jpg' ?>" id="userprofile" width="52"
-                    height="52" alt="Adopter" onerror="this.src='Assets/images/default-pet.jpg'" />
+                <img src="Assets/uploads/<?= $userImage ?? 'default-pet.jpg' ?>" id="userprofile" width="52" height="52"
+                    alt="Adopter" onerror="this.src='Assets/images/default-pet.jpg'" />
             </a>
         </div>
 
