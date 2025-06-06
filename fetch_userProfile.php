@@ -14,7 +14,8 @@ if (isset($_SESSION['user_id'])) {
         $userPwd =$data['user_password'];
         $userAddress = $data['user_address'];
         $userEmail = $data['user_email'];
-        $userprofile = $data['user_image'];
+        $userImage = $data['user_image'];
+        $userPhone = $data['user_phone'];
         $userId = $data['user_id'];
     }
     else {

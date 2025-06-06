@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Peternity</title>
+    <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -78,9 +79,9 @@
                                 <label class="form-label">Species <span class="text-danger">*</span></label>
                                 <select class="form-select" name="species" required>
                                     <option value="">Select...</option>
-                                    <option>Dog</option>
-                                    <option>Cat</option>
-                                    <option>Other</option>
+                                    <option value="dog">Dog</option>
+                                    <option value="cat">Cat</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
 
@@ -95,10 +96,10 @@
                             <div class="col-md-4">
                                 <label class="form-label">Gender</label>
                                 <div class="btn-group w-100" role="group">
-                                    <input type="radio" class="btn-check" name="gender" id="male" value="male">
+                                    <input type="radio" class="btn-check" name="gender" id="male" value="Male">
                                     <label class="btn btn-outline-primary" for="male">♂ Male</label>
 
-                                    <input type="radio" class="btn-check" name="gender" id="female" value="female">
+                                    <input type="radio" class="btn-check" name="gender" id="female" value="Female">
                                     <label class="btn btn-outline-primary" for="female">♀ Female</label>
                                 </div>
                             </div>
@@ -118,47 +119,22 @@
                                 <label class="form-label">Pet Photo</label>
                                 <input type="file" class="form-control" name="petPhoto" accept="image/*">
                             </div>
-                        </div>
-                    </section>
-                    <hr>
-                    <section class="mb-5">
-                        <h4 class=" mb-4">Contact Information</h4>
-                        <div class="row g-4 px-4">
-                            <div class="col-md-10">
-                                <label class="form-label">Your Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="ownerName" pattern="[A-Za-z ]{5,50}"
-                                    required>
-                            </div>
-
-                            <div class="col-md-5">
-                                <label class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" name="email"
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
-                            </div>
-
-                            <div class="col-md-5">
-                                <label class="form-label">Phone</label>
-                                <input type="tel" class="form-control" name="phone" pattern="[0-9]{10}">
-                            </div>
-                            <div class="col-md-10">
-                                <label class="form-label">Location <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="location" placeholder="City, State"
-                                    required>
-                            </div>
-                            <div class="col-md-10">
+                            <div class="col-12">
                                 <label class="form-label">Reason for Rehoming <span class="text-danger">*</span></label>
                                 <textarea class="form-control" name="reason" required></textarea>
                             </div>
                         </div>
-                    </section>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                        <button type="submit" name="submit" class="btn btn-success rounded-pill px-5">
-                            Submit Rehoming Profile
-                        </button>
-                        <a href="rehome.php" type="reset" class="btn btn-secondary rounded-pill px-5">Reset</a>
-                    </div>
+
+
+                        <div class="d-grid gap-2 mt-5 d-md-flex justify-content-md-center">
+                            <button type="submit" name="submit" class="btn btn-success rounded-pill px-5">
+                                Submit Rehoming Profile
+                            </button>
+                            <a href="rehome.php" type="reset" class="btn btn-secondary rounded-pill px-5">Reset</a>
+                        </div>
                 </form>
+                </section>
             </div>
         </div>
     </div>

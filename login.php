@@ -3,11 +3,12 @@
     error_reporting(E_ALL);
     require_once("connect.php");
     $error = "";
+    $data = null;
     if(isset($_POST['login']))
     {
         //sql injection prevention
-        $userEmail = $conn->real_escape_string(trim($_POST['useremail']));
-        $userPwd = $conn->real_escape_string(trim($_POST['password']));
+        $userEmail = $conn->real_escape_string(trim($_POST['user_email']));
+        $userPwd = $conn->real_escape_string(trim($_POST['user_password']));
         $password = md5($userPwd);
         $select = "Select * from userprofile where user_email= '$userEmail'";
 		$result = $conn->query($select);
@@ -20,10 +21,7 @@
 			return $Final;*/
 			$data = $result ->fetch_assoc();
         }
-		else
-		{
-			echo "No record found";
-		}
+		
         // echo $data['user_id'];  
            /*echo"<pre>";
            print_r($result);*/
@@ -35,10 +33,8 @@
                         {
                             //setting session
                             $_SESSION['UserEmail'] = $data['user_email'];
-                            $_SESSION['Password'] = $data['user_password'];
                             $_SESSION['user_id'] = $data['user_id'];
-                            //redirecting to Home page
-                            header("Location:index.php");
+                            header("Location: userprofile.php");
                             exit();
                         }
                         else
@@ -54,7 +50,7 @@
 
     }
 ?>
-<div class="container sign-in">
+<!-- <div class="container sign-in">
     <form action="" method="POST">
         <div class="social-icons">
             <a href="#" class="icon"><i class="fab fa-google"></i></a>
@@ -68,5 +64,65 @@
         <button type="submit" name="login" class="form-button">Sign In</button>
     </form>
 
-    <p id="error1"><?php echo $error; ?></p>
-</div>
+\</div> -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="navbar.css" rel="stylesheet">
+    <style>
+    body {
+        background-color: #DFFBF3;
+    }
+
+    .auth-card {
+        background: #fff;
+        border: 2px solid #213F12;
+        border-radius: 12px;
+    }
+
+    .auth-card h3 {
+        color: #213F12;
+    }
+
+    .btn-auth {
+        background-color: #213F12;
+        color: white;
+    }
+
+    .btn-auth:hover {
+        background-color: #1b3510;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh">
+        <div class="col-md-6 col-lg-5">
+            <div class="card auth-card shadow p-4">
+                <h3 class="text-center mb-4">Log In</h3>
+                <form action="" method="POST">
+                    <span id="error" class="text-danger"><?php echo $error; ?></span>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" name="user_email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="user_password" required>
+                    </div>
+                    <button type="submit" name="login" class="btn btn-success w-100">Login</button>
+                    <div class="text-center mt-3">
+                        <a href="signup.php">Don't have an account? Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

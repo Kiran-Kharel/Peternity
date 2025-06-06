@@ -1,6 +1,7 @@
 <?php
 require_once 'connect.php';
-
+include 'check_user.php';
+if($is_logged_in){
     if(isset($_POST['submit'])){
 
     $petName = $conn->real_escape_string(trim($_POST['petName']));
@@ -42,12 +43,11 @@ require_once 'connect.php';
         gender, 
         bio, 
         health_info, 
-        owner_name, 
-        email, 
-        phone, 
-        place, 
         rehoming_reason, 
-        photo_path
+        photo_path,
+        adopted,
+        created_at,
+        user_id
     ) VALUES (
         '$petName',
         '$species',
@@ -55,12 +55,11 @@ require_once 'connect.php';
         '$gender',
         '$petBio',
         '$healthinfo',
-        '$ownerName',
-        '$email',
-        '$phone',
-        '$location',
         '$reason',
-        '$photoPath'
+        '$photoPath',
+        0,
+        NOW(),
+        $user_id
         )";
 
     $insertion = mysqli_query($conn, $query);
@@ -83,5 +82,8 @@ require_once 'connect.php';
     // $stmt->close();
     // $conn->close();
 
+    }}else {
+        header("Location: login.php");
+        exit();
     }
 ?>

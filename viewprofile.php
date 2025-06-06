@@ -1,6 +1,7 @@
 <?php 
 require_once 'connect.php';
 $pet_id = $_GET['id'];
+$is_adopted = 0;
 
 $fetchquery = "SELECT * FROM pet_details WHERE pet_id = $pet_id";
 $fetch = mysqli_query($conn, $fetchquery);
@@ -12,12 +13,10 @@ if(!empty($data)) {
     $gender = $data['gender'];
     $petBio = $data['bio'];
     $healthInfo = $data['health_info'];
-    $ownerName = $data['owner_name'];
-    $email = $data['email'];
-    $phone = $data['phone'];
-    $location = $data['place'];
     $reason = $data['rehoming_reason'];
     $imgprofile = $data['photo_path'];
+    $userID = $data['user_id'];
+    $is_adopted = $data['adopted'];
 }
 else {
     echo"Error Finding Pet Details. ";

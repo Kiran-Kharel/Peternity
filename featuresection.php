@@ -1,7 +1,7 @@
 <?php 
 require_once 'connect.php';
 
-$fetchquery = "SELECT * FROM pet_details ORDER BY pet_id DESC LIMIT 3";
+$fetchquery = "SELECT * FROM pet_details WHERE adopted = 0 ORDER BY pet_id DESC LIMIT 3";
 $fetchall = mysqli_query($conn, $fetchquery);
 
 $outputarray = array();
@@ -39,7 +39,7 @@ $imgdir = "Assets/uploads/";
         
         ?>
         </div>
-        <div class="my-5 text-center">
+        <div class="my-4 text-center">
             <a href="petlist.php" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill"
                 type="button">
                 View More Pets &nbsp; <i class="fa-solid fa-angles-right"></i>
