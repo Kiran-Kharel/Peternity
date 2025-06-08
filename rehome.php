@@ -138,7 +138,9 @@
             </div>
         </div>
     </div>
-
+    <footer class="text-center py-3 bg-light border-top">
+        <small>&copy; 2025 PETERNITY. All rights reserved.</small>
+    </footer>
     <script>
     document.querySelector('[name="petBio"]').addEventListener('input', function(e) {
         document.getElementById('charCount1').textContent = e.target.value.length;

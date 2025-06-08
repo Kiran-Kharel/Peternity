@@ -1,5 +1,7 @@
 <html>
-    <head></head>
+    <head>
+        <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
+    </head>
     <body>
         <form action="send_reset.php" method="POST" id="forget_pwd-form">
             <h3>Forgot Password</h3>

@@ -59,9 +59,11 @@
                 }
             
             ?>
-
         </div>
     </section>
+    <footer class="text-center py-3 bg-light border-top">
+        <small>&copy; 2025 PETERNITY. All rights reserved.</small>
+    </footer>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const filterButtons = document.querySelectorAll('.filterbtn button');

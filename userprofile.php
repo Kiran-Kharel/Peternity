@@ -188,7 +188,7 @@ else {
                 <p><strong>Address:</strong>&nbsp;<?php echo $userAddress; ?></p>
                 <p><strong>Phone:</strong>&nbsp;<?php echo $userPhone; ?></p>
                 <a href="editprofile.php" class="edit-btn">Edit Profile</a>
-                <a href="changePassword.php" class="password-btn">Change Password</a>
+                <a href="emailform.php" class="password-btn">Change Password</a>
             </div>
         </div>
 
@@ -360,6 +360,9 @@ else {
 
         </section>
     </div>
+    <footer class="text-center py-3 bg-light border-top">
+        <small>&copy; 2025 PETERNITY. All rights reserved.</small>
+    </footer>
     <script>
     const cards = document.querySelectorAll('.fav-card');
 

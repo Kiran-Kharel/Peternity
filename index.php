@@ -35,7 +35,10 @@
     <?php include'rehomebanner.php';?>
     <?php include'featuresection.php';?>
     <?php include'infosection.php';?>
-
+    <?php include'about.php';?>
+    <footer class="text-center py-3 bg-light border-top">
+        <small>&copy; 2025 PETERNITY. All rights reserved.</small>
+    </footer>
     <script>
     const cards = document.querySelectorAll('.card');
 

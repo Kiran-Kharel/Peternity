@@ -17,6 +17,7 @@ else {
 $imgdir = "Assets/uploads/";
 
 ?>
+
 <div class="featuresection">
     <h1 class="display-6 my-5 text-center fw-bold text-body-emphasis">Featured Pets</h1>
     <div class="container">

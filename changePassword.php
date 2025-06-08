@@ -27,6 +27,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
     <link rel="stylesheet" href="Assets/css/changepwd.css">
+    <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
     <title>Reset Password</title>
    
 </head>

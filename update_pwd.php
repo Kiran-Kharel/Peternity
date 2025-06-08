@@ -1,3 +1,4 @@
+<link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
 <?php
     require 'connect.php';
     require_once 'check_user.php'; 
