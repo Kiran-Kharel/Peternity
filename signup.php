@@ -89,6 +89,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
     <link href="navbar.css" rel="stylesheet">
     <style>
     body {
@@ -133,13 +134,15 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-control" name="user_password" required>
+                        <input type="password" class="form-control" name="user_password" id="password" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" name="user_repassword" required>
+                        <input type="password" class="form-control" name="user_repassword" id="confirm_password" required>
+                        <!-- <div class="invalid-feedback" id="password-mismatch">Passwords do not match.</div> -->
+                        <span id="error" class="text-danger"><?php echo $error; ?></span>
                     </div>
-                    <span id="error" class="text-danger"><?php echo $error; ?></span>
+                    
 
                     <div class="mb-3">
                         <label class="form-label">Address</label>
@@ -162,20 +165,48 @@
         </div>
     </div>
     <script>
-    (() => {
-        'use strict'
-        const forms = document.querySelectorAll('.needs-validation')
+        (() => {
+            'use strict';
 
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
+            const form = document.querySelector('.needs-validation');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirm_password');
+            const errorSpan = document.getElementById('error');
+
+            function hasSpecialChar(str) {
+                return /[!@#$%^&*(),.?":{}|<>]/.test(str);
+            }
+
+            form.addEventListener('submit', (event) => {
+                let valid = true;
+                errorSpan.textContent = ""; // Clear previous messages
+
                 if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
+                    valid = false;
                 }
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
+
+                if (password.value.length < 8) {
+                    errorSpan.textContent = "❌ Password must be at least 8 characters long.";
+                    valid = false;
+                } else if (!hasSpecialChar(password.value)) {
+                    errorSpan.textContent = "❌ Password must contain at least one special character.";
+                    valid = false;
+                } else if (password.value !== confirmPassword.value) {
+                    confirmPassword.classList.add("is-invalid");
+                    errorSpan.textContent = "❌ Passwords do not match.";
+                    valid = false;
+                } else {
+                    confirmPassword.classList.remove("is-invalid");
+                }
+
+                if (!valid) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            });
+        })();
     </script>
 </body>
 
