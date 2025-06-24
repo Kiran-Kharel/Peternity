@@ -10,9 +10,10 @@ include 'fetch_userProfile.php';
         $userEmail = $data['user_email'];
         $userPhone = $data['user_phone'];
         $userAddress = $data['user_address'];
-
+        if($is_logged_in){
             $fav_result = mysqli_query($conn, "SELECT * FROM favourites WHERE user_id = $userId AND pet_id = $pet_id");
             $isfavourite = mysqli_num_rows($fav_result) > 0;
+        }
         ?>
 <!DOCTYPE html>
 <html lang="en">
