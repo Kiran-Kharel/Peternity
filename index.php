@@ -23,14 +23,14 @@
     <link rel="stylesheet" href="Assets/css/rehomebanner.css">
     <link rel="stylesheet" href="Assets/css/featuresection.css">
     <link rel="stylesheet" href="Assets/css/infosection.css">
-
+    <link rel="stylesheet" href="Assets/css/slideshow.css">
 
 
 </head>
 
 <body>
     <?php include'navbar.php';?>
-    <?php include'herosection.php';?>
+    <?php include'slideshow.php';?>
     <?php include'categorysection.php';?>
     <?php include'rehomebanner.php';?>
     <?php include'featuresection.php';?>

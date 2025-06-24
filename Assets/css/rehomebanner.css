@@ -1,12 +1,17 @@
 .rehomebanner{
     width: 100%;
-    height: 65vh;
+    height: auto;
+    padding: 2rem 0;
 }
 .rehomebanner div{
     background-color: #DFFBF3;
 }
-.rehomebanner h1{
+.small-container h1{
     color: #213F12;
+    font-family: 'Inter', sans-serif;
+    font-size: 3.5rem;
+    font-weight: bold;
+    top: 20%;
 }
 .bannerimages .row:first-child{
     width: 100%;
@@ -20,4 +25,22 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}  
+@media (max-width: 768px) {
+    .rehomebanner .container {
+        flex-direction: column;
+    }
+
+    .bannerimages {
+        width: 100%;
+    }
+
+    .bannerimages .top-image,
+    .bannerimages .bottom-images {
+        height: 160px;
+    }
+
+    .bottom-images img {
+        width: 50%;
+    }
 }

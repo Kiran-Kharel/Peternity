@@ -1,6 +1,6 @@
 <section class="rehomebanner my-5 py-5">
     <div class="container w-100 h-100 d-flex my-5 ">
-        <div class="p-5 bg-body-tertiary w-50">
+        <div class="p-5 bg-body-tertiary w-50 small-container">
             <h1 class="text-body-emphasis">Give Your Pet The Love They Deserve.</h1>
             <p class="col-lg-10 fs-5">
                 Support your care through the right foster for your pet.

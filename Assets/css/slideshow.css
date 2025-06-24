@@ -1,0 +1,25 @@
+.hero-slide {
+  height: 88vh; 
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.carousel-caption {
+  position: absolute;
+  top: 50%; 
+  transform: translateY(-35%);
+  text-shadow: 1px 1px 10px rgba(0,0,0,0.7);
+}
+.carousel-caption h1 {
+  font-size: 3.5rem; 
+  font-weight: bold;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+.carousel-caption p {
+  font-size: 1.6rem; 
+  color: #f1f1f1;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+}
+
