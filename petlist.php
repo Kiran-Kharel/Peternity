@@ -40,7 +40,7 @@
             <button data-name="other">Others</button>
         </div>
         <div class="filtercards mt-5">
-            <span id="error" class="text-danger"><?php echo $error; ?></span>
+
             <?php
             
                 foreach($outputarray as $x){
@@ -60,6 +60,8 @@
             
             ?>
         </div>
+        <span id="error" class="text-danger"><?php echo $error; ?></span>
+
     </section>
     <footer class="text-center py-3 bg-light border-top">
         <small>&copy; 2025 PETERNITY. All rights reserved.</small>
