@@ -120,8 +120,9 @@
     }
 
     .toggle-icon {
+        z-index: 99999999999999999999999;
         position: absolute;
-        right: 15px;
+        right: 25px;
         top: 72%;
         transform: translateY(-50%);
         cursor: pointer;
@@ -154,7 +155,7 @@
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" name="user_password" id="password" required>
                         <div class="invalid-feedback" id="passwordError"></div>
-                        <i class="fa-solid fa-eye toggle-icon" onclick="togglePwd('password', this)"></i>
+                        <!-- <i class="fa-solid fa-eye toggle-icon" onclick="togglePwd('password', this)"></i> -->
 
                     </div>
                     <div class="mb-3 position-relative">
@@ -162,7 +163,7 @@
                         <input type="password" class="form-control" name="user_repassword" id="confirm_password"
                             required>
                         <div class="invalid-feedback" id="confirmPasswordError"></div>
-                        <i class="fa-solid fa-eye toggle-icon" onclick="togglePwd('confirm_password', this)"></i>
+                        <!-- <i class="fa-solid fa-eye toggle-icon" onclick="togglePwd('confirm_password', this)"></i> -->
 
                         <!-- <div class="invalid-feedback" id="password-mismatch">Passwords do not match.</div> -->
                         <!-- <span id="error" class="text-danger"><?php echo $error; ?></span> -->
