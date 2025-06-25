@@ -208,12 +208,17 @@ include 'fetch_userProfile.php';
                     </div>
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-5">
+                    <?php if($is_logged_in): ?>
                     <?php if($userId == $userID || $is_adopted == 1): ?>
                     <a href="apply_adoption.php?i=<?= $pet_id ?>" onclick="return false;"
                         class="btn btn-success rounded-pill px-5 disabled-link">Apply for
                         Adoption</a>
                     <?php else: ?>
                     <a href="apply_adoption.php?i=<?= $pet_id ?>" class="btn btn-success rounded-pill px-5">Apply for
+                        Adoption</a>
+                    <?php endif; ?>
+                    <?php else: ?>
+                    <a href="login.php" class="btn btn-primary rounded-pill px-5">Apply for
                         Adoption</a>
                     <?php endif; ?>
                     <!-- < if (!$pet['adopted'] && $is_logged_in): ?>
