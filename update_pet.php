@@ -162,14 +162,18 @@ if (isset($_POST['update'])) {
                             <div class="col-md-5">
                                 <label class="form-label">Species <span class="text-danger">*</span></label>
                                 <select class="form-select" name="species" value="<?= $pet['species'] ?>" required>
-                                    <option value="">Select...</option>
+                                    <!-- <option value="">Select...</option>
                                     <?php if($pet['species'] == 'dog'): ?>
                                     <option value="dog" selected>Dog</option>
                                     <?php elseif($pet['species'] == 'cat'): ?>
                                     <option value="cat" selected>Cat</option>
                                     <?php elseif($pet['species'] == 'other'): ?>
                                     <option value="other" selected>Other</option>
-                                    <?php endif; ?>
+                                    <?php endif; ?> -->
+                                    <option value="">Select...</option>
+                                    <option value="dog">Dog</option>
+                                    <option value="cat">Cat</option>
+                                    <option value="other">Other</option>
                                 </select>
                             </div>
 
