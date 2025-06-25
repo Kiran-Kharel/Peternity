@@ -11,6 +11,7 @@
         if ($new !== $confirm) {
             echo "Passwords do not match.";
             exit;
+            
         }
 
         $hashed = md5($new);

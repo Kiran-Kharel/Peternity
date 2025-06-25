@@ -41,11 +41,32 @@
     </style>
 </head>
 <body>
+    <?php 
+        include 'check_user.php';
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
+            $inputEmail = $_POST['email'];
+            $sessionEmail = $_SESSION['UserEmail'] ?? null;
+
+            if ($inputEmail === $sessionEmail) {
+                $_SESSION['reset_email'] = $inputEmail;
+                header("Location: changePassword.php");
+                exit;
+            } else {
+                // Email does not match – show error
+                echo "<script>alert('Entered email does not match your account email.'); window.history.back();</script>";
+            }
+        }
+        //  else {
+        //     // If not a POST request, redirect back
+        //     header("Location: index.php");
+        //     exit;
+        // }
+    ?>
     <div>
-        <form method="POST" action="changePassword.php">
+        <form method="POST" action="">
             <h3>Enter your email</h3>
             <input type="email" name="email" required placeholder="Enter your email">
-            <button type="submit">Next</button>
+            <button type="submit" name="submit">Next</button>
         </form>
     </div>
 </body>
