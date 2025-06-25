@@ -3,7 +3,7 @@
     $error = "";
     require_once("connect.php");
     if(isset($_POST['submit'])){
-
+        
         $userName = $conn->real_escape_string(trim($_POST['user_name']));
         $userPwd = $conn->real_escape_string(trim($_POST['user_password']));
         $userRePwd = $conn->real_escape_string(trim($_POST['user_repassword']));
@@ -12,9 +12,8 @@
         $userPhone = $conn->real_escape_string(trim($_POST['user_phone']));
         $imgPath = null;
 
-        if($userPwd !== $userRePwd){
-            $error = "Password does not match";
-        }else{
+       if(!empty($userName) && !empty($userPwd) && !empty($userRePwd) && !empty($userEmail)){
+            
             $pwd = md5($userPwd);
         
         if (isset($_FILES['user_image']) && $_FILES['user_image']['error'] === UPLOAD_ERR_OK) {
@@ -22,14 +21,14 @@
             $fileType = mime_content_type($_FILES['user_image']['tmp_name']);
             
             if (!in_array($fileType, $allowedTypes)) {
-            echo("Invalid file type.");        }
+            $error = "Invalid file type.";        }
 
             $extension = pathinfo($_FILES['user_image']['name'], PATHINFO_EXTENSION);
             $filename = uniqid('user_', true) . '.' . $extension;
             $destination = 'Assets/uploads/' . $filename;
             
             if (!move_uploaded_file($_FILES['user_image']['tmp_name'], $destination)) {
-                echo("Failed to upload file");
+                $error = "Failed to upload file";
             }
             $imgPath = $conn->real_escape_string($filename);
         }
@@ -52,12 +51,14 @@
         $insertion = mysqli_query($conn, $query);
 
         if (!$insertion) {
-            echo("Failed to Create a Profile: " . mysqli_error( $conn));
+            $error = "Failed to Create a Profile: " . mysqli_error( $conn);
         }else{
             header("Location: login.php");
             exit();    
         }
-    }
+       }else{
+        $error = "Fill in the required fields";
+       }
 }
     
 ?>
@@ -89,6 +90,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+
     <link rel="shortcut icon" href="Assets\images\petlogo-fav.png" type="image/x-icon">
     <link href="navbar.css" rel="stylesheet">
     <style>
@@ -114,6 +118,15 @@
     .btn-auth:hover {
         background-color: #1b3510;
     }
+
+    .toggle-icon {
+        position: absolute;
+        right: 15px;
+        top: 72%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #555;
+    }
     </style>
 </head>
 
@@ -123,34 +136,50 @@
             <div class="card auth-card shadow p-4">
                 <h3 class="text-center mb-4">Sign Up</h3>
                 <form action="" method="POST" class="needs-validation" enctype="multipart/form-data" novalidate>
+                    <span id="error" class="text-danger"><?php echo $error; ?></span>
                     <div class="mb-3">
                         <label class="form-label">Name</label>
                         <input type="text" class="form-control" name="user_name" pattern="[A-Za-z ]{3,50}" required>
+                        <div class="invalid-feedback" id="usernameError"></div>
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control" name="user_email"
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                        <div class="invalid-feedback" id="emailError"></div>
+
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" name="user_password" id="password" required>
+                        <div class="invalid-feedback" id="passwordError"></div>
+                        <i class="fa-solid fa-eye toggle-icon" onclick="togglePwd('password', this)"></i>
+
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative">
                         <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" name="user_repassword" id="confirm_password" required>
+                        <input type="password" class="form-control" name="user_repassword" id="confirm_password"
+                            required>
+                        <div class="invalid-feedback" id="confirmPasswordError"></div>
+                        <i class="fa-solid fa-eye toggle-icon" onclick="togglePwd('confirm_password', this)"></i>
+
                         <!-- <div class="invalid-feedback" id="password-mismatch">Passwords do not match.</div> -->
-                        <span id="error" class="text-danger"><?php echo $error; ?></span>
+                        <!-- <span id="error" class="text-danger"><?php echo $error; ?></span> -->
                     </div>
-                    
+
 
                     <div class="mb-3">
                         <label class="form-label">Address</label>
                         <input type="text" class="form-control" name="user_address">
+                        <div class="invalid-feedback" id="addressError"></div>
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone Number</label>
                         <input type="tel" class="form-control" pattern="[0-9]{10}" name="user_phone">
+                        <div class="invalid-feedback" id="phoneError"></div>
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Profile Image</label>
@@ -164,49 +193,136 @@
             </div>
         </div>
     </div>
+
     <script>
-        (() => {
-            'use strict';
+    function togglePwd(id, icon) {
+        const input = document.getElementById(id);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
 
-            const form = document.querySelector('.needs-validation');
-            const password = document.getElementById('password');
-            const confirmPassword = document.getElementById('confirm_password');
-            const errorSpan = document.getElementById('error');
+    (() => {
+        'use strict';
 
-            function hasSpecialChar(str) {
-                return /[!@#$%^&*(),.?":{}|<>]/.test(str);
+        const form = document.querySelector('.needs-validation');
+        const usernameInput = document.querySelector('input[name="user_name"]');
+        const usernameError = document.getElementById('usernameError');
+
+        const addressInput = document.querySelector('input[name="user_address"]');
+        const addressError = document.getElementById('addressError');
+
+        const password = document.getElementById('password');
+        const passwordError = document.getElementById('passwordError');
+
+        const confirmPassword = document.getElementById('confirm_password');
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+        const emailInput = document.querySelector('input[name="user_email"]');
+        const emailError = document.getElementById('emailError');
+
+        const phoneInput = document.querySelector('input[name="user_phone"]');
+        const phoneError = document.getElementById('phoneError');
+
+        function isValidPhone(phone) {
+            const phonePattern = /^[9][8-9][0-9]{8}$/;
+            return phonePattern.test(phone);
+        }
+
+        function isValidEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        function hasSpecialChar(str) {
+            return /[!@#$%^&*(),.?":{}|<>]/.test(str);
+        }
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Always stop form submit first!
+            let valid = true;
+
+            // Clear all errors:
+            usernameError.textContent = "";
+            addressError.textContent = "";
+            emailError.textContent = "";
+            passwordError.textContent = "";
+            confirmPasswordError.textContent = "";
+            phoneError.textContent = "";
+
+            usernameInput.classList.remove('is-invalid');
+            addressInput.classList.remove('is-invalid');
+            emailInput.classList.remove('is-invalid');
+            password.classList.remove('is-invalid');
+            confirmPassword.classList.remove('is-invalid');
+            phoneInput.classList.remove('is-invalid');
+
+            // --- Username empty check ---
+            if (usernameInput.value.trim() === "") {
+                usernameError.textContent = "❌ Username is required.";
+                usernameInput.classList.add('is-invalid');
+                valid = false;
             }
 
-            form.addEventListener('submit', (event) => {
-                let valid = true;
-                errorSpan.textContent = ""; // Clear previous messages
+            // --- Address empty check ---
+            if (addressInput.value.trim() === "") {
+                addressError.textContent = "❌ Address is required.";
+                addressInput.classList.add('is-invalid');
+                valid = false;
+            }
+            // Validate email:
+            if (emailInput.value.trim() === "") {
+                emailError.textContent = "❌ Email is required.";
+                emailInput.classList.add('is-invalid');
+                valid = false;
+            } else if (!isValidEmail(emailInput.value.trim())) {
+                emailError.textContent = "❌ Invalid email format.";
+                emailInput.classList.add('is-invalid');
+                valid = false;
+            }
 
-                if (!form.checkValidity()) {
-                    valid = false;
-                }
 
-                if (password.value.length < 8) {
-                    errorSpan.textContent = "❌ Password must be at least 8 characters long.";
-                    valid = false;
-                } else if (!hasSpecialChar(password.value)) {
-                    errorSpan.textContent = "❌ Password must contain at least one special character.";
-                    valid = false;
-                } else if (password.value !== confirmPassword.value) {
-                    confirmPassword.classList.add("is-invalid");
-                    errorSpan.textContent = "❌ Passwords do not match.";
-                    valid = false;
-                } else {
-                    confirmPassword.classList.remove("is-invalid");
-                }
+            // Validate phone:
+            if (phoneInput.value.trim() === "") {
+                phoneError.textContent = "❌ Phone number is required.";
+                phoneInput.classList.add('is-invalid');
+                valid = false;
+            } else if (!isValidPhone(phoneInput.value.trim())) {
+                phoneError.textContent = "❌ Enter valid 10-digit Nepali phone number.";
+                phoneInput.classList.add('is-invalid');
+                valid = false;
+            }
 
-                if (!valid) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+            // Validate password:
+            if (password.value.length < 8) {
+                passwordError.textContent = "❌ Password must be at least 8 characters long.";
+                password.classList.add('is-invalid');
+                valid = false;
+            } else if (!hasSpecialChar(password.value)) {
+                passwordError.textContent = "❌ Password must contain at least one special character.";
+                password.classList.add('is-invalid');
+                valid = false;
+            }
 
-                form.classList.add('was-validated');
-            });
-        })();
+            // Validate confirm password:
+            if (password.value !== confirmPassword.value) {
+                confirmPasswordError.textContent = "❌ Passwords do not match.";
+                confirmPassword.classList.add('is-invalid');
+                valid = false;
+            }
+
+            // Finally, submit if valid:
+            if (valid) {
+                form.submit(); // Manually submit if all valid
+            }
+        });
+    })();
     </script>
 </body>
 
